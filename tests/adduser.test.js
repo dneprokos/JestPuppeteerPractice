@@ -19,13 +19,15 @@ describe('Add user page', () => {
 
       //Act
       await page.$eval(userNameField, el => el.value =  'test@test.com')
+      //await page.type(userNameField, 'test@test.com') --Alternative way 
+
       await page.$eval(passwordField, el => el.value = 'testpass')
       await page.click(saveButton)
 
       //Assert
-      let actName = await page.$x(createdCredentials);
-      let userNameText = await page.evaluate(h1 => h1.textContent, actName[1]);
-      let passwordText = await page.evaluate(h1 => h1.textContent, actName[2]);
+      let credElements = await page.$x(createdCredentials);
+      let userNameText = await page.evaluate(h1 => h1.textContent, credElements[1]);
+      let passwordText = await page.evaluate(h1 => h1.textContent, credElements[2]);
       
       expect(userNameText).toContain('test@test.com');
       expect(passwordText).toContain('testpass');
